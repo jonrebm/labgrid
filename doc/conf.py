@@ -40,8 +40,11 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
               'sphinx.ext.coverage',
               'sphinx.ext.viewcode',
+              'sphinxarg.ext', # sphinx-argparse
               'sphinx.ext.autosectionlabel',
               'sphinx_rtd_theme']
+
+suppress_warnings = ['autosectionlabel.*']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['.templates']
@@ -196,7 +199,12 @@ autodoc_mock_imports = ['onewire',
                         'vxi11',
                         'pysnmp',
                         'kasa',
-                        'kasa.iot']
+                        'kasa.iot',
+                        'labgrid.driver.power.eaton',
+                        'labgrid.driver.power.poe_mib',
+                        'labgrid.driver.power.raritan',
+                        'labgrid.driver.power.tplink',
+                        ]
 
 # -- Options for autosection ----------------------------------------------
 autosectionlabel_prefix_document = True
