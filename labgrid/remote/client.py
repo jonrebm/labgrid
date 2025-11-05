@@ -1709,7 +1709,12 @@ class ExportFormat(enum.Enum):
 
 
 def get_parser(include_undocumented=False) -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(add_help=include_undocumented)
+
+    # A fixed-width formatter to make usage string formatting predictable for manpage generation
+    def formatter(prog):
+        return argparse.HelpFormatter(prog, width=(None if include_undocumented else 180))
+
+    parser = argparse.ArgumentParser(add_help=include_undocumented, formatter_class=formatter)
 
     # if the parser is requested for manpage generation, inject some workarounds for subcommands
     if not include_undocumented:
@@ -1726,6 +1731,8 @@ def get_parser(include_undocumented=False) -> argparse.ArgumentParser:
             # the "help" message is ignore by autoprogram. Use "description" instead.
             if "description" not in kwargs and "help" in kwargs:
                 kwargs["description"] = kwargs.pop("help")
+            # make usage string formatting predictable
+            kwargs["formatter_class"] = formatter
             return argparse_add_parser(self, name, **kwargs)
 
         argparse._SubParsersAction.add_parser = man_add_parser
